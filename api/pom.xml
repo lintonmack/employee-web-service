@@ -8,7 +8,7 @@
     </parent>
 
     <groupId>org.example</groupId>
-    <artifactId>web</artifactId>
+    <artifactId>api</artifactId>
 <!--    <packaging>jar</packaging>-->
 
     <name>web</name>
@@ -39,6 +39,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.pdp</groupId>
+            <artifactId>core</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
     <build>
