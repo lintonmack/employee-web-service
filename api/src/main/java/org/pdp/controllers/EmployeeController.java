@@ -35,7 +35,7 @@ public class EmployeeController {
 
     @GetMapping(ViewNames.EMPLOYEE)
     public ResponseEntity<Employee> getEmployee(@RequestParam String id) {
-        Employee employee = employeeService.getEmployee(id);
+        Employee employee = employeeService.getEmployeeById(id);
         if (employee != null) {
             return ResponseEntity.status(HttpStatus.OK).body(employee);
         }

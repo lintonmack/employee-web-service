@@ -32,7 +32,7 @@ public class EmployeeDAOImpl implements EmployeeDAO{
     }
 
     @Override
-    public Employee getEmployee(String employeeId) {
+    public Employee getEmployeeById(String employeeId) {
         return employeeRepository.getEmployee(Integer.parseInt(employeeId));
     }
 

@@ -14,8 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(classes = CoreMain.class)
 public class EmployeeServiceImplTest {
@@ -45,5 +44,13 @@ public class EmployeeServiceImplTest {
         assertTrue(EmployeeTestUtils.compareEmployees(actual, expected));
     }
 
+    @DisplayName("Get Employee By Id")
+    @Test
+    void getEmployeeById() {
+        Employee expected = new Employee("Bob", "male", "2 Fake Street", "m1 3ay", 2, "PR", 23000.0f, "notlinton@linton.com");
+        Employee actual = employeeService.getEmployeeById("2");
+
+        assertTrue(EmployeeTestUtils.compareEmployee(actual, expected));
+    }
 
 }

@@ -8,7 +8,7 @@ import java.util.List;
 public interface EmployeeDAO {
     public Connection getDBConnection();
     public List<Employee> getAllEmployees();
-    public Employee getEmployee(String employeeId);
+    public Employee getEmployeeById(String employeeId);
     public Boolean insertEmployee(Employee employee);
     public Boolean updateEmployee(Employee employee);
     public Boolean deleteEmployee(Employee employee);
