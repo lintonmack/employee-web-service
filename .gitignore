@@ -36,3 +36,25 @@ build/
 
 .mvn
 /.mvn
+
+# dependencies
+/app-ui/node_modules
+/app-ui/.pnp
+/app-ui/.pnp.js
+
+# testing
+/app-ui/coverage
+
+# production
+/app-ui/build
+
+# misc
+/app-ui/.DS_Store
+/app-ui/.env.local
+/app-ui/.env.development.local
+/app-ui/.env.test.local
+/app-ui/.env.production.local
+
+/app-ui/npm-debug.log*
+/app-ui/yarn-debug.log*
+/app-ui/yarn-error.log*
