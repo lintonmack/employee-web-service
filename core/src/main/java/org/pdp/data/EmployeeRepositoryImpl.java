@@ -25,6 +25,11 @@ public class EmployeeRepositoryImpl implements EmployeeRepository{
     @Override
     public Employee getEmployee(int id) {
 
+        for (Employee employee: employees) {
+            if (employee.getEmployeeNumber() == id) {
+                return employee;
+            }
+        }
         return null;
     }
 }
