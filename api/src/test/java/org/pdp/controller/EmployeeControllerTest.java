@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @AutoConfigureMockMvc
@@ -59,7 +60,6 @@ public class EmployeeControllerTest {
                 .andExpect(jsonPath("$.gender").value("male"))
                 .andExpect(jsonPath("$.address").value("2 Fake Street"))
                 .andExpect(jsonPath("$.postcode").value("m1 3ay"))
-                .andExpect(jsonPath("$.employeeNumber").value(2))
                 .andExpect(jsonPath("$.department").value("PR"))
                 .andExpect(jsonPath("$.salary").value(23000.0))
                 .andExpect(jsonPath("$.email").value("notlinton@linton.com"));
@@ -109,5 +109,44 @@ public class EmployeeControllerTest {
                 .andExpect(content().contentType(APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$", hasSize(2)));
     }
-    
+
+    @DisplayName("Update Employee From In Memory Data")
+    @Test
+    @Order(5)
+    void updateEmployee() throws Exception {
+
+        Employee initialEmployee = new Employee("Bob", "male", "2 Fake Street", "m1 3ay", 2, "PR", 23000.0f, "notlinton@linton.com");
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/employee?id=2"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath("$.employeeNumber").value(initialEmployee.getEmployeeNumber()))
+                .andExpect(jsonPath("$.name").value(initialEmployee.getName()))
+                .andExpect(jsonPath("$.gender").value(initialEmployee.getGender()))
+                .andExpect(jsonPath("$.address").value(initialEmployee.getAddress()))
+                .andExpect(jsonPath("$.postcode").value(initialEmployee.getPostcode()))
+                .andExpect(jsonPath("$.department").value(initialEmployee.getDepartment()))
+                .andExpect(jsonPath("$.salary").value(initialEmployee.getSalary()))
+                .andExpect(jsonPath("$.email").value(initialEmployee.getEmail()));
+
+        Employee updatedEmployee = new Employee("Bob", "male", "2 Fake Street", "m1 3ay", 2, "PR", 23000.0f, "newemail@test.com");
+
+        mockMvc.perform(put("/employee")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(updatedEmployee)))
+                .andExpect(status().isOk());
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/employee?id=2"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath("$.employeeNumber").value(initialEmployee.getEmployeeNumber()))
+                .andExpect(jsonPath("$.name").value(initialEmployee.getName()))
+                .andExpect(jsonPath("$.gender").value(initialEmployee.getGender()))
+                .andExpect(jsonPath("$.address").value(initialEmployee.getAddress()))
+                .andExpect(jsonPath("$.postcode").value(initialEmployee.getPostcode()))
+                .andExpect(jsonPath("$.department").value(initialEmployee.getDepartment()))
+                .andExpect(jsonPath("$.salary").value(initialEmployee.getSalary()))
+                .andExpect(jsonPath("$.email").value(updatedEmployee.getEmail()));
+
+    }
 }

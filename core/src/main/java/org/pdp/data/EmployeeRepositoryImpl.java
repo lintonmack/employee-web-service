@@ -64,4 +64,44 @@ public class EmployeeRepositoryImpl implements EmployeeRepository{
             return wasRemoved;
         }
     }
+
+    @Override
+    public Boolean updateEmployee(Employee employee) {
+        Boolean wasUpdated = false;
+        try {
+            for (Employee emp : this.employees) {
+                if (employee.getEmployeeNumber() == emp.getEmployeeNumber()) {
+                    if (emp.getSalary() != employee.getSalary()) {
+                        emp.setSalary(employee.getSalary());
+                    }
+                    if (emp.getEmail() != employee.getEmail()) {
+                        emp.setEmail(employee.getEmail());
+                    }
+                    if (emp.getName() != employee.getName()) {
+                        emp.setName(employee.getName());
+                    }
+                    if (emp.getDepartment() != employee.getDepartment()) {
+                        emp.setDepartment(employee.getDepartment());
+                    }
+                    if (emp.getGender() != employee.getGender()) {
+                        emp.setGender(employee.getGender());
+                    }
+                    if (emp.getPostcode() != employee.getPostcode()) {
+                        emp.setPostcode(employee.getPostcode());
+                    }
+                    if (emp.getAddress() != employee.getAddress()) {
+                        emp.setAddress(employee.getAddress());
+                    }
+
+                    wasUpdated = true;
+                    break;
+                }
+            }
+            log.info(this.employees.toString());
+            return wasUpdated;
+        } catch (Exception e) {
+            log.info("Unable to remove employee from EmployeeRepo");
+            return wasUpdated;
+        }
+    }
 }

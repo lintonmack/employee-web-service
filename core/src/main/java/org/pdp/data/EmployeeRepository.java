@@ -9,4 +9,5 @@ public interface EmployeeRepository {
     public Employee getEmployee(int id);
     public Boolean insertEmployee(Employee employee);
     public Boolean deleteEmployee(Employee employee);
+    public Boolean updateEmployee(Employee employee);
 }

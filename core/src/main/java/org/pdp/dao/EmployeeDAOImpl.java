@@ -43,7 +43,7 @@ public class EmployeeDAOImpl implements EmployeeDAO{
 
     @Override
     public Boolean updateEmployee(Employee employee) {
-        return null;
+        return employeeRepository.updateEmployee(employee);
     }
 
     @Override

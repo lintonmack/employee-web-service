@@ -59,17 +59,19 @@ public class EmployeeController {
         return ResponseEntity.status(HttpStatus.OK).body("Employee Removed from datastore");
     }
 
-    // ToDo: Add Unit tests for the above an look to add an integration test
-    // ToDo: Add remainder of CRUD methods and add tests to support
+    @PutMapping(value=ViewNames.EMPLOYEE, consumes = {"application/json"})
+    public ResponseEntity<String> updateEmployee(@RequestBody Employee employee) {
+        Boolean hasUpdated = employeeService.updateEmployee(employee);
+        if (!hasUpdated) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body("Employee Updated in datastore");
+    }
+
     // ToDo: Add MongoDB connection
+    // ToDo: Add Unit tests for the above an look to add an integration test
     // ToDo: Add Integration tests
     // ToDo: Add API key integration
     // ToDo: Add React integration
 
-
-//    @GetMapping("/")
-//    public List<Employee> home() {
-//        List<Employee> employees = employeeService.getAllEmployees();
-//        return employees;
-//    }
 }
