@@ -45,4 +45,23 @@ public class EmployeeRepositoryImpl implements EmployeeRepository{
             return false;
         }
     }
+
+    @Override
+    public Boolean deleteEmployee(Employee employee) {
+        Boolean wasRemoved = false;
+        try {
+            for (Employee emp : this.employees) {
+                if (employee.getEmployeeNumber() == emp.getEmployeeNumber()) {
+                    this.employees.remove(emp);
+                    wasRemoved = true;
+                    break;
+                }
+            }
+            log.info(this.employees.toString());
+            return wasRemoved;
+        } catch (Exception e) {
+            log.info("Unable to remove employee from EmployeeRepo");
+            return wasRemoved;
+        }
+    }
 }

@@ -1,9 +1,7 @@
 package org.pdp.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.pdp.ApiMain;
 import org.pdp.model.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +13,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.hamcrest.Matchers.hasSize;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @AutoConfigureMockMvc
 @SpringBootTest(classes = ApiMain.class)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class EmployeeControllerTest {
 
     private static MockHttpServletRequest mockRequest;
@@ -38,6 +38,7 @@ public class EmployeeControllerTest {
 
     @DisplayName("Get In Memory All Employees")
     @Test
+    @Order(1)
     void getEmployees() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/employees"))
                 .andExpect(status().isOk())
@@ -47,6 +48,7 @@ public class EmployeeControllerTest {
 
     @DisplayName("Get Employee By Id Using In Memory Data")
     @Test
+    @Order(2)
     void getEmployeeById() throws Exception {
 
         mockMvc.perform(MockMvcRequestBuilders.get("/employee?id=2"))
@@ -65,6 +67,7 @@ public class EmployeeControllerTest {
 
     @DisplayName("Insert Employee Into In Memory Data")
     @Test
+    @Order(3)
     void insertEmployee() throws Exception {
 
         mockMvc.perform(MockMvcRequestBuilders.get("/employees"))
@@ -85,4 +88,26 @@ public class EmployeeControllerTest {
                 .andExpect(jsonPath("$", hasSize(3)));
     }
 
+    @DisplayName("Delete Employee From In Memory Data")
+    @Test
+    @Order(4)
+    void deleteEmployee() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/employees"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath("$", hasSize(3)));
+
+        Employee employee = new Employee("John", "male", "45 Fake Street", "m1 3ay", 1, "Tech", 20000.0f, "linton@linton.com");
+
+        mockMvc.perform(delete("/employee")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(employee)))
+                .andExpect(status().isOk());
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/employees"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath("$", hasSize(2)));
+    }
+    
 }

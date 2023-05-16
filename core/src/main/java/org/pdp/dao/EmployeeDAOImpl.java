@@ -48,7 +48,7 @@ public class EmployeeDAOImpl implements EmployeeDAO{
 
     @Override
     public Boolean deleteEmployee(Employee employee) {
-        return null;
+        return employeeRepository.deleteEmployee(employee);
     }
 
     @Override

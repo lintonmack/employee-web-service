@@ -50,6 +50,15 @@ public class EmployeeController {
         return ResponseEntity.status(HttpStatus.CREATED).body("Employee Added to datastore");
     }
 
+    @DeleteMapping(value=ViewNames.EMPLOYEE, consumes = {"application/json"})
+    public ResponseEntity<String> deleteEmployee(@RequestBody Employee employee) {
+        Boolean hasDeleted = employeeService.deleteEmployee(employee);
+        if (!hasDeleted) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body("Employee Removed from datastore");
+    }
+
     // ToDo: Add Unit tests for the above an look to add an integration test
     // ToDo: Add remainder of CRUD methods and add tests to support
     // ToDo: Add MongoDB connection
