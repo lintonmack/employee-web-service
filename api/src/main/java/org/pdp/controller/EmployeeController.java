@@ -1,4 +1,4 @@
-package org.pdp.controllers;
+package org.pdp.controller;
 
 import org.pdp.model.Employee;
 import org.pdp.service.EmployeeService;
