@@ -1,5 +1,6 @@
 package org.pdp.data;
 
+import lombok.extern.slf4j.Slf4j;
 import org.pdp.model.Employee;
 import org.springframework.stereotype.Component;
 
@@ -7,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
+@Slf4j
 public class EmployeeRepositoryImpl implements EmployeeRepository{
     private List<Employee> employees;
 
@@ -31,5 +33,16 @@ public class EmployeeRepositoryImpl implements EmployeeRepository{
             }
         }
         return null;
+    }
+    @Override
+    public Boolean insertEmployee(Employee employee) {
+        try {
+            this.employees.add(employee);
+            log.info(this.employees.toString());
+            return true;
+        } catch (Exception e) {
+            log.info("Unable to add employee to EmployeeRepo");
+            return false;
+        }
     }
 }

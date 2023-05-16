@@ -28,4 +28,10 @@ public class EmployeeServiceImpl implements EmployeeService{
     public Employee getEmployeeById(String id) {
         return employeeDAO.getEmployeeById(id);
     }
+
+    @Override
+    public Boolean insertEmployee(Employee employee) {
+        Boolean insertedEmployee = employeeDAO.insertEmployee(employee);
+        return insertedEmployee;
+    }
 }

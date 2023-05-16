@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.pdp.ApiMain;
+import org.pdp.model.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,6 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.hamcrest.Matchers.hasSize;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @AutoConfigureMockMvc
@@ -59,6 +61,28 @@ public class EmployeeControllerTest {
                 .andExpect(jsonPath("$.department").value("PR"))
                 .andExpect(jsonPath("$.salary").value(23000.0))
                 .andExpect(jsonPath("$.email").value("notlinton@linton.com"));
+    }
+
+    @DisplayName("Insert Employee Into In Memory Data")
+    @Test
+    void insertEmployee() throws Exception {
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/employees"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath("$", hasSize(2)));
+
+        Employee employee = new Employee("John", "male", "45 Fake Street", "m1 3ay", 1, "Tech", 20000.0f, "linton@linton.com");
+
+        mockMvc.perform(post("/employee")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(employee)))
+                .andExpect(status().isCreated());
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/employees"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath("$", hasSize(3)));
     }
 
 }
